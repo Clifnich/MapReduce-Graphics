@@ -1,1 +1,5 @@
 .DS_STORE
+*.class
+Idea-Project/out/**
+Idea-Project/target/**
+Idea-Project/test-files/**
