@@ -1,1 +1,9 @@
 .DS_STORE
+*.class
+Idea-Project/out/**
+Idea-Project/target/**
+Idea-Project/test-files/**
+Idea-Project/30x30Image/**
+Idea-Project/30x30Image
+Idea-Project/600x800Image/**
+Idea-Project/distance-store/**
