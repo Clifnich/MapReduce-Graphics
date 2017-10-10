@@ -88,15 +88,43 @@ public class DistanceStore {
     }
 
     public int getDistance(int row1, int column1, int row2, int column2) {
-        int distance = 0;
+        if (row1 == row2 && column1 == column2) return 0;
+        int firstRow = 0, firstColumn = 0, secondRow = 0, secondColumn = 0;
+        if (row1 < row2) {
+            firstRow = row1;
+            firstColumn = column1;
+            secondRow = row2;
+            secondColumn = column2;
+        } else if (row1 == row2) {
+            if (column1 < column2) {
+                firstRow = row1;
+                firstColumn = column1;
+                secondRow = row2;
+                secondColumn = column2;
+            } else {
+                firstRow = row2;
+                firstColumn = column2;
+                secondRow = row1;
+                secondColumn = column1;
+            }
+        } else {
+            firstRow = row2;
+            firstColumn = column2;
+            secondRow = row1;
+            secondColumn = column1;
+        }
         try {
-            Pixel pixel1 = PixelFinder.find(row1, column1, filepath);
-            Pixel pixel2 = PixelFinder.find(row2, column2, filepath);
-            distance = computeDistance(pixel1, pixel2);
+            BufferedReader reader = new BufferedReader(new FileReader(
+                    new File(DATA_DIRECTORY + File.separator + firstRow + "," + firstColumn)));
+            int linesToJump = (secondRow - firstRow) * this.columns + secondColumn - firstColumn - 1;
+            for (int i = 0; i < linesToJump; i++)
+                reader.readLine();
+            // after skipping several lines, the distance data is at the cursor position
+            return Integer.valueOf(reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return distance;
+        return 0;
     }
 
     /**
@@ -107,10 +135,10 @@ public class DistanceStore {
     private int computeDistance(Pixel pixel1, Pixel pixel2) {
         int[] contents1 = pixel1.getContents();
         int[] contents2 = pixel2.getContents();
-        int squareSum = 0;
+        double squareSum = 0;
         for (int i = 0; i < contents1.length; i++) {
-            squareSum += (contents1[i] - contents2[i]) * (contents1[i] - contents2[i]);
+            squareSum += Math.pow(contents1[i] - contents2[i], 2);
         }
-        return (int) Math.sqrt(squareSum);
+        return (int) (Math.sqrt(squareSum) + 0.5);
     }
 }
