@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/visionstorage.iml" filepath="$PROJECT_DIR$/visionstorage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chord.iml" filepath="$PROJECT_DIR$/chord.iml" />
     </modules>
   </component>
 </project>
