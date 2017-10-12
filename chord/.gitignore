@@ -1,3 +1,4 @@
 .DS_STORE
 *.class
 /target/**
+log4j-application.log
