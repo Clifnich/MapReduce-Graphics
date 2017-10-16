@@ -1,0 +1,21 @@
+How to use a slave server
+1. How to produce a SlaveServer.jar
+com.puzhen.chord.spark.SlaveServer is the main class for such a server. 
+The build snippet is already written in pom.xml. So all you need to do
+to produce a SlaveServer.jar is to type `mvn clean package -Dmaven.test.skip=true`
+in your command line. Make sure you have installed maven.
+
+2. How to use the SlaveServer.jar
+Run it with a command line parameter specifying a port number that it
+should be listening on. For example,
+```
+java -jar SlaveServer.jar 8080
+```
+
+The command above starts a slave server listening on port 8080.
+
+After starting up, each slave will support two operations: put a key-value
+pair and get a value for a given key.
+
+API /put?key=yourkey&value=yourvalue put a key-value pair into the server
+API /get?key=yourkey will return a value for the key, null if no such key

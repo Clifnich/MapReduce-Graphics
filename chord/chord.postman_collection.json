@@ -1,0 +1,254 @@
+{
+	"info": {
+		"name": "chord",
+		"_postman_id": "90ddaee8-4438-8451-1f06-f34196a94d72",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/put?key=tom0&value=123",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/put?key=tom0&value=123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"put"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom0",
+							"equals": true
+						},
+						{
+							"key": "value",
+							"value": "123",
+							"equals": true
+						}
+					]
+				},
+				"description": "Send several PUT and GET request to the hash map slave servers to test their functionality."
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/get?key=tom0",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/get?key=tom0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom0",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/put?key=tom1&value=123",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/put?key=tom1&value=123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"put"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom1",
+							"equals": true
+						},
+						{
+							"key": "value",
+							"value": "123",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/get?key=tom1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/get?key=tom1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom1",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/put?key=tom2&value=123",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8082/put?key=tom2&value=123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"put"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom2",
+							"equals": true
+						},
+						{
+							"key": "value",
+							"value": "123",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/get?key=tom2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8082/get?key=tom2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom2",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/put?key=tom3&value=123",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8083/put?key=tom3&value=123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"put"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom3",
+							"equals": true
+						},
+						{
+							"key": "value",
+							"value": "123",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/get?key=tom3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8083/get?key=tom3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "tom3",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

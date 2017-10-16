@@ -28,6 +28,8 @@ public class DistanceStore {
         BufferedReader rd = new BufferedReader(new FileReader(file));
         this.filepath = filepath;
         int currentRow = 0;
+        // iterate through the data file, since data file can be extremely large
+        // I sacrifice some code readability for storage efficiency.
         try {
             String line = "";
             boolean first = true;

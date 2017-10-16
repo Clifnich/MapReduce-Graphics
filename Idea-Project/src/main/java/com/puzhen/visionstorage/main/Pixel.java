@@ -1,5 +1,7 @@
 package com.puzhen.visionstorage.main;
 
+import java.util.Arrays;
+
 public class Pixel {
 
     private int row;
@@ -34,6 +36,15 @@ public class Pixel {
         this.row = row;
         this.column = column;
         this.contents = dimensions;
+    }
+
+    @Override
+    public String toString() {
+        return "Pixel{" +
+                "row=" + row +
+                ", column=" + column +
+                ", contents=" + Arrays.toString(contents) +
+                '}';
     }
 
     public Pixel() {}
