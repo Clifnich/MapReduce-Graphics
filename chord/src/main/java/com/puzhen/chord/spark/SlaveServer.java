@@ -2,6 +2,10 @@ package com.puzhen.chord.spark;
 
 import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +42,20 @@ public class SlaveServer {
             return "Done";
         });
 
-
+        post("/leave", (req, res) -> {
+            try {
+                HttpURLConnection conn = (HttpURLConnection) (new URL(
+                        "http://localhost:8080/chord/requestForLeave?portNumber=1234")).openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String response = rd.readLine();
+                return response;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Error";
+            }
+        });
     }
 
     static Map<String, String> map;

@@ -1,15 +1,19 @@
 package com.puzhen.chord.spring;
 
 import com.puzhen.chord.consistenthashing.DistributedHashTable;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class MasterController {
 
+    static final Logger logger = Logger.getLogger(MasterController.class);
     private DistributedHashTable distributedHashTable = new DistributedHashTable();
 
     @RequestMapping(value = "/put", method=RequestMethod.PUT,
@@ -25,5 +29,13 @@ public class MasterController {
     @ResponseBody
     public String doGet(@RequestParam (value = "key") String key) {
         return distributedHashTable.get(key);
+    }
+
+    @RequestMapping(value = "/requestForLeave", method = RequestMethod.POST,
+        params = {"portNumber"})
+    @ResponseBody
+    public String answerLeaveRequest(@RequestParam (value = "portNumber") String portNumber) {
+        logger.info("Incoming ip address is: " + portNumber);
+        return "deny";
     }
 }

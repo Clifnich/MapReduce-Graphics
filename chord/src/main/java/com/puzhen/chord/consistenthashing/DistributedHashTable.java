@@ -42,24 +42,33 @@ public class DistributedHashTable {
      * @return the bucket position for a key after hashing with SHA-1 and mod by 2^3
      */
     private int getBucketPosition(String key) {
-        // use double hashing
-        byte[] bytes;
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            byte[] bytesOfMessage = key.getBytes();
-            bytes = messageDigest.digest(bytesOfMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // if has exception, use SHA-1 to HASH
-            bytes = DigestUtils.sha1(key);
+        // use BKDR hash function
+        long sum = 0;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            sum = sum * 131 + c;
         }
-        String newKey = String.valueOf(bytes);
-        bytes = DigestUtils.sha1(newKey);
-        int sum = 0;
-        for (int i = 0; i < bytes.length; i++)
-            sum += bytes[i];
-        return Math.abs(sum) % (int) Math.pow(2, m);
+        return (int) (sum % (int) Math.pow(2, m));
     }
+//    private int getBucketPosition(String key) {
+//        // use double hashing
+//        byte[] bytes;
+//        try {
+//            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+//            byte[] bytesOfMessage = key.getBytes();
+//            bytes = messageDigest.digest(bytesOfMessage);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // if has exception, use SHA-1 to HASH
+//            bytes = DigestUtils.sha1(key);
+//        }
+//        String newKey = String.valueOf(bytes);
+//        bytes = DigestUtils.sha1(newKey);
+//        int sum = 0;
+//        for (int i = 0; i < bytes.length; i++)
+//            sum += bytes[i];
+//        return Math.abs(sum) % (int) Math.pow(2, m);
+//    }
 
     /**
      * @param keyPosition
