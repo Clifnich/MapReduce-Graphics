@@ -1,0 +1,6 @@
+curl -X POST "localhost:8081/leave"
+echo "8081 is leaving"
+curl -X POST "localhost:8082/leave"
+echo "8082 is leaving"
+curl -X POST "localhost:8083/leave"
+echo "8083 is leaving"

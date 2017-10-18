@@ -1,23 +1,28 @@
 package com.puzhen.chord.consistenthashing;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;
-import java.nio.Buffer;
-import java.security.MessageDigest;
 import java.util.*;
 
 public class DistributedHashTable {
 
     private static final int m = 3;
     private List<Bucket> buckets = new ArrayList<Bucket>((int) Math.pow(2, m));
-    private String[] serverPorts = {"8080", "8081", "8082"};
+    private String[] initialServerPorts = {"8083", "8081", "8082"};
     private static final Logger logger = Logger.getLogger(DistributedHashTable.class);
+    private Map<String, Integer> portNumber2IndexMap = new HashMap<>();
+    private static DistributedHashTable instance;
 
-    public DistributedHashTable() {
+    public static DistributedHashTable getInstance() {
+        if (instance == null)
+            instance = new DistributedHashTable();
+        return instance;
+    }
+
+    private DistributedHashTable() {
         // add 2^m default buckets to the list
         for (int i = 0; i < (int) Math.pow(2, m); i++)
             buckets.add(new Bucket());
@@ -28,12 +33,15 @@ public class DistributedHashTable {
      * This method hashes the server port number into the buckets
      */
     private void configureServers() {
-        for (String port : serverPorts) {
+        logger.info("Configuring servers..\n\n");
+        for (String port : initialServerPorts) {
             int bucketPosition = getBucketPosition(port);
             Bucket bucket = buckets.get(bucketPosition);
             bucket.getServers().add(port);
-            logger.info("port " + port + " is hashed to bucket " + bucketPosition);
+            portNumber2IndexMap.put(port, bucketPosition);
+            logger.info("port [" + port + "] is hashed to bucket " + bucketPosition);
         }
+        logger.info("After configuring, portNumber2IndexMap's size is: " + portNumber2IndexMap.size());
     }
 
     /**
@@ -123,6 +131,27 @@ public class DistributedHashTable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getSuccessingServer(String portNumber) {
+        int serverPosition = 0;
+//        logger.info("In getSuccessingServer(), portNumber is: [" + portNumber + "].");
+        try {
+//            if (!portNumber2IndexMap.containsKey(portNumber)) {
+//                logger.error("no such key!!!!!!!!!!!!!!!!! and size is " + portNumber2IndexMap.size());
+//            }
+            serverPosition = portNumber2IndexMap.get(portNumber);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return getSuccessorServerPort(serverPosition + 1);
+    }
+
+    public void dismissSlave(String portNumber) {
+        Bucket bucket = buckets.get(portNumber2IndexMap.get(portNumber));
+        // assume that each server queue has only one server
+        bucket.getServers().poll();
+        portNumber2IndexMap.remove(portNumber);
     }
 
     public int size() {

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class MasterController {
 
     static final Logger logger = Logger.getLogger(MasterController.class);
-    private DistributedHashTable distributedHashTable = new DistributedHashTable();
+    private DistributedHashTable distributedHashTable = DistributedHashTable.getInstance();
 
     @RequestMapping(value = "/put", method=RequestMethod.PUT,
         params = {"key", "value"})
@@ -35,7 +35,10 @@ public class MasterController {
         params = {"portNumber"})
     @ResponseBody
     public String answerLeaveRequest(@RequestParam (value = "portNumber") String portNumber) {
-        logger.info("Incoming ip address is: " + portNumber);
-        return "deny";
+        logger.info("Meeting port " + portNumber + ", granting its leave..");
+        String successingServerPort = distributedHashTable.getSuccessingServer(portNumber);
+        distributedHashTable.dismissSlave(portNumber);
+        return "OK " + successingServerPort;
+        //return "OK";
     }
 }
