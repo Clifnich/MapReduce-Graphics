@@ -1,12 +1,15 @@
 package com.puzhen.chord.spark;
 
+import com.puzhen.chord.consistenthashing.DistributedHashTable;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -89,22 +92,59 @@ public class SlaveServer {
                return "Error";
            }
         });
+
+        post("newComerNotification", (req, res) -> {
+            String newComerPort = req.queryParams("newComerPort");
+            movePartialKeys(newComerPort);
+            logger.info("I should move part of my keys to " + newComerPort + ", but I can't now.");
+            return "OK";
+        });
     }
 
+    private static void movePartialKeys(String newComerPort) {
+        List<String> keysToBeDeleted = new ArrayList<>();
+        // TODO determine what kind of keys need to be moved
+        int newComerPosition = DistributedHashTable.getBucketPosition(newComerPort);
+        for (String key : map.keySet()) {
+            int keyPosition = DistributedHashTable.getBucketPosition(key);
+            if (keyPosition <= newComerPosition) {
+                keysToBeDeleted.add(key);
+                moveKeyValue(key, map.get(key), newComerPort);
+            }
+        }
+        // delete keys moved
+        for (String key : keysToBeDeleted)
+            map.remove(key);
+    }
+
+    /**
+     * Move key value to a given slave
+     * @param key
+     * @param value
+     * @param portNumber
+     */
+    private static void moveKeyValue(String key, String value, String portNumber) {
+        String urlString = "http://localhost:" + portNumber + "/put?key=" + key + "&value=" + value;
+        try {
+            HttpURLConnection conn = (HttpURLConnection) (new URL(urlString)).openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setDoInput(true);
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            logger.info(rd.readLine());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Node is leaving, move all keys to a given slave
+     * @param portNumber
+     */
     private static void moveAllKeys(String portNumber) {
         for (String key : map.keySet()) {
             String value = map.get(key);
             logger.info("Moving (" + key + ", " + value + ")...");
-            String urlString = "http://localhost:" + portNumber + "/put?key=" + key + "&value=" + value;
-            try {
-                HttpURLConnection conn = (HttpURLConnection) (new URL(urlString)).openConnection();
-                conn.setRequestMethod("PUT");
-                conn.setDoInput(true);
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                logger.info(rd.readLine());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            moveKeyValue(key, value, portNumber);
         }
     }
 }
