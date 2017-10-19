@@ -1,0 +1,6 @@
+curl -X POST "localhost:8081/sanityCheck"
+echo ""
+curl -X POST "localhost:8082/sanityCheck"
+echo ""
+curl -X POST "localhost:8083/sanityCheck"
+echo ""

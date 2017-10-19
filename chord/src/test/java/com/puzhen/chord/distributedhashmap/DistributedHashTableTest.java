@@ -19,9 +19,12 @@ public class DistributedHashTableTest {
 //        SlaveServer.main(args2);
 //    }
 
+    /**
+     * This test case requires some slave servers to run.
+     */
     @Test
     public void test0() {
-        DistributedHashTable distributedHashTable = new DistributedHashTable();
+        DistributedHashTable distributedHashTable = DistributedHashTable.getInstance();
         distributedHashTable.put("tom", "cat");
         assertEquals("cat", distributedHashTable.get("tom"));
 

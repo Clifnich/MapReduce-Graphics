@@ -1,0 +1,3 @@
+Command to see what apps are listening on ports?
+lsof -i -P -n
+it works like charm!
