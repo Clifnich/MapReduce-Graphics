@@ -24,7 +24,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.puzhen.visionstorage.script.CreateHBaseTable
+                                        com.puzhen.visionstorage.script.PutGetTest
                                     </mainClass>
                                 </manifest>
                             </archive>
