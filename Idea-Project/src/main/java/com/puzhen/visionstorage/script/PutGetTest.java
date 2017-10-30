@@ -6,14 +6,12 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class PutGetTest {
 
-    @Test
-    public void test0() {
+    public static void main(String[] args) {
         System.out.println("Put and get from a HBASE table..");
         Configuration config = HBaseConfiguration.create();
         config.addResource(new Path("hbase-site.xml"));
